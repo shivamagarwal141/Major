@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="/css/book_appointment.css">
+<div class="main-container">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+
+                        <a class="nav-link " href="/appointment/patient">Book Appointment <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item ">
+
+                        <a class="nav-link " href="/appointment/doctor-details">Doctor Details<span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <marquee scrollamount="10">Note: Book with correct details!!
+    </marquee>
+    <div class="title-edit">
+        <h1>Book Appointment</h1>
+    </div>
+    <div class="form-container">
+        <form action="/appointment/create" method="POST">
+            <div class="form-style">
+                <input class="form-style-place" type="email" name="email" placeholder="Email" required>
+                <input class="form-style-place" type="text" name="name" placeholder="Name" required>
+                <input class="form-style-place" type="text" name="mobile" placeholder="Mobile Number" required>
+                <input class="form-style-place" type="text" name="address" placeholder="Address" required>
+
+                <select class="form-style-place" name="doctor" id="doctorSelect" required
+                    onchange="loadDoctorTimings()">
+                    <option value="" disabled selected hidden>Select Doctor</option>
+                    <% for (info of doctor){ %>
+                        <option value="<%=info.name%>">
+                            <%=info.name%> (<%= info.specialization %>)
+                        </option>
+                        <% } %>
+                </select>
+                <select class="form-style-place" name="timings" id="timingSelect" required>
+                    <option value="" disabled selected hidden>Select Appointment Timing</option>
+                </select>
+
+                <input class="enter" type="submit" value="Book">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Function to load doctor timings
+        window.loadDoctorTimings = function () {
+            var doctorName = $("#doctorSelect").find(':selected').attr('value');
+            // Get selected doctor name
+            if (doctorName) {
+                // Use AJAX to fetch doctor timings based on the selected doctor name
+                $.ajax({
+                    url: `/appointment/getDoctorTimings/${doctorName}`, // Replace with the actual route to fetch timings
+                    dataType: 'json',
+                    success: function (data) {
+                        // Populate the timing select tag with the fetched timings
+                        var timingsSelect = $("#timingSelect");
+                        timingsSelect.empty(); // Clear existing options
+                        timingsSelect.append('<option value="" disabled selected hidden>Select Available Timing</option>');
+
+                        data.forEach(info => {
+                            if (!info.check) {
+                                timingsSelect.append('<option value="' + info.timing + '">' + info.timing + " " + info.am_pm + '</option>');
+                            }
+                        })
+                    },
+                    error: function (error) {
+                        console.log("Error fetching doctor timings:", error);
+                    }
+                });
+            }
+        };
+    });
+</script>

@@ -1,0 +1,162 @@
+body{
+    
+    background-size: cover;
+    margin: 0;
+    
+}
+
+.top-nav{
+   /* background-color: #a596e1; */
+   background-color: #007bff ;
+   padding: 0px;
+}
+.top-nav-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+.top-nav-contact{
+    /* padding: 0.1rem 0; */
+    position: relative;
+
+}
+.top-nav-contact a{
+    color: white;
+    padding: 0.5rem;
+    text-decoration: none;
+    font-size: medium;
+    font-weight: 400;
+}
+.top-nav-contact a:hover{
+    color: black;
+}
+
+.top-nav-contact a i{
+    margin: 0.1rem;
+}
+
+.top-nav-details{
+    /* padding: 0.1rem 0; */
+    position: relative;
+    text-align: end;
+    order: 2;
+
+}
+
+.top-nav-details a{
+    color: white;
+    padding: 0.1rem;
+    text-decoration: none;
+    font-size: medium;
+    font-weight: 400;
+}
+.top-nav-details a:hover{
+    color: black;
+    text-decoration: none;
+}
+
+
+.top{
+    /* #ff4c68 */
+    background-color: #210d2d;
+    padding: 25px 0px;
+    font-family: "monserat";
+    /* height: auto; */
+
+}
+
+.inner-div{
+    text-align: right;
+    /* margin: 0px 30px; */
+}
+/* .inner-div button{
+    padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff80;
+  text-shadow: none;
+  background: transparent;
+  box-shadow: transparent;
+  border: 1px solid #ffffff80;
+  transition: 0.5s ease;
+  user-select: none;
+}
+
+.inner-div button:hover{
+    color: #ffffff;
+    background: #008cff;
+    border: 1px solid #008cff;
+    text-shadow: 0 0 5px #ffffff,
+                0 0 10px #ffffff,
+                0 0 20px #ffffff;
+    box-shadow: 0 0 5px #008cff,
+                0 0 20px #008cff,
+                0 0 50px #008cff,
+                0 0 100px #008cff;
+} */
+
+
+.inner-div button {
+    --color: #007bff;
+    font-family: inherit;
+    display: inline-block;
+    width: 6em;
+    height: 2.6em;
+    line-height: 2.5em;
+    overflow: hidden;
+    
+    font-size: 15px;
+    z-index: 1;
+    color: var(--color);
+    border: 2px solid var(--color);
+    border-radius: 6px;
+    position: relative;
+  }
+  
+.inner-div button::before {
+    position: absolute;
+    content: "";
+    background: var(--color);
+    width: 150px;
+    height: 200px;
+    z-index: -1;
+    border-radius: 50%;
+  }
+  
+.inner-div button:hover {
+    color: white;
+  }
+  
+.inner-div  button:before {
+    top: 100%;
+    left: 100%;
+    transition: .3s all;
+  }
+  
+.inner-div  button:hover::before {
+    top: -30px;
+    left: -30px;
+  }
+
+  a.signout-a {
+    text-decoration: none;
+    
+}
+a.signout-a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.profile{
+    margin-right: 30px;
+    color: white;
+}
+.profile i{
+    color: white;
+    border: 1px solid white;
+    border-radius: 25%;
+    padding: 5px;
+}

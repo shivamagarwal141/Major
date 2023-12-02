@@ -1,0 +1,194 @@
+<link rel="stylesheet" type="text/css" href="/css/book_appointment.css">
+<div class="main-container">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item ">
+
+                        <a class="nav-link " href="/doctor/patient-diagnosis">Patient Diagnos <span
+                                class="sr-only">(current)</span></a>
+
+                    </li>
+                    <li class="nav-item active">
+
+                        <a class="nav-link " href="/doctor/patient-details">Patient Details <span
+                                class="sr-only">(current)</span></a>
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="title-edit">
+            <h1>Appointment Details</h1>
+        </div>
+        <div id="doctor-details">
+            <table border="1" style="text-align: center;">
+                <thead>
+                    <th>Sno.</th>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Mobile Number</th>
+                    <th>Address </th>
+                    <th>Timings</th>
+                    <th>Reject</th>
+                    <th>Confirm</th>
+                    <th>Edit</th>
+                    <th></th>
+                </thead>
+                <tbody>
+
+                    <%if(user){ let i=1 %>
+                        <% for(info of user.patients){ %>
+                            <tr>
+                                <% if(info.check) {%>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= info.name %>
+                                    </td>
+                                    <td>
+                                        <%= info.email%>
+                                    </td>
+                                    <td>
+                                        <%= info.mobile %>
+                                    </td>
+                                    <td>
+                                        <%= info.address %>
+                                    </td>
+                                    <td>
+                                        <%= info.timing + " " + info.am_pm %>
+                                    </td>
+                                    <td>
+                                        <% if(!info.confirm){%>
+                                            <div class="modal fade" id="myModal<%=i%>" role="dialog">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal">&times;</button>
+                                                            <div class="title-edit">
+                                                                <h1>Rejecting Appointment</h1>
+                                                            </div>
+                                                            <div class="form-container">
+                                                                <form action="/appointment/reject" method="POST">
+                                                                    <hr>
+                                                                    <p class="modal-title">Email: <%= info.email%>
+                                                                    </p>
+                                                                    <p class="modal-title">Name: <%= info.name%>
+                                                                    </p>
+                                                                    <hr>
+                                                                    <div class="form-style">
+                                                                        <input class="form-style-place" type="hidden"
+                                                                            name="id" value="<%= info.id%>">
+                                                                        <textarea
+                                                                            placeholder="Why are you Rejecting? Reason"
+                                                                            name="reason" cols="30" rows="5"></textarea>
+                                                                        <input class="enter" type="submit"
+                                                                            value="Reject">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/images/wrong.png" data-toggle="modal"
+                                                data-target="#myModal<%=i%>" class="img-clickable">
+                                            <% } else{%>
+                                                -
+                                                <% } %>
+                                    </td>
+                                    <td>
+                                        <% if(!info.confirm){%>
+                                            <a href="/appointment/confirm/<%= info.id %>"><img
+                                                    src="/images/correct.png"></a>
+                                            <% }else{ %>
+                                                Confirmed!!
+                                                <% } %>
+                                    </td>
+                                    <td>
+                                        <% if(info.confirm){%>
+                                            <div class="modal fade" id="MyModal<%=i%>" role="dialog">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal">&times;</button>
+                                                            <div class="title-edit">
+                                                                <h1>Re-Scheduling Appointment</h1>
+                                                            </div>
+                                                            <div class="form-container">
+                                                                <form action="/appointment/modify" method="POST">
+                                                                    <hr>
+                                                                    <p class="modal-title">Email: <%= info.email%>
+                                                                    </p>
+                                                                    <p class="modal-title">Name: <%= info.name%>
+                                                                    </p>
+                                                                    <hr>
+                                                                    <div class="form-style">
+                                                                        <input class="form-style-place" type="hidden"
+                                                                            name="id" value="<%= info.id%>">
+                                                                        <select class="form-style-place" name="time"
+                                                                            id="doctorSelect" required>
+                                                                            <option value="" disabled selected hidden>
+                                                                                Select Available Time</option>
+                                                                            <% for (time of timingsPatient){ %>
+                                                                                <option value="<%=time.timing%>">
+                                                                                    <%=time.timing + " " + time.am_pm %>
+                                                                                </option>
+                                                                                <% } %>
+                                                                        </select>
+
+
+                                                                        <textarea
+                                                                            placeholder="Why are you Re-Scheduling? Reason"
+                                                                            name="reason" cols="33" rows="5"></textarea>
+                                                                        <input class="enter" type="submit"
+                                                                            value="Re-Schedule">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/images/edit.png" data-toggle="modal" data-target="#MyModal<%=i%>"
+                                                class="img-clickable">
+                                            <% } else{%>
+                                                -
+                                                <% } %>
+                                    </td>
+                                    <td>
+                                        <a href="/appointment/destroy-patient/<%= info.id %>"><img
+                                                src="/images/delete.png"></a>
+                                    </td>
+                                    <% } else{%>
+                                        <td>
+                                            <%=i%>
+                                        </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td>
+                                            <%= info.timing + " " +info.am_pm %>
+                                        </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td></td>
+                                        <% } %>
+                            </tr>
+                            <% i++;} %>
+                                <% } %>
+                </tbody>
+            </table>
+
+        </div>
+    </div>

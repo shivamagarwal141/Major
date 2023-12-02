@@ -1,0 +1,120 @@
+<!-- <link rel="stylesheet" type="text/css" href="/css/doctor_profile.css"> -->
+<% if(locals.user){ %>
+    <div class="main-container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+
+                        <a class="nav-link " href="/doctor/patient-diagnosis">Patient Diagnos <span
+                                class="sr-only">(current)</span></a>
+
+                    </li>
+                    <li class="nav-item ">
+
+                        <a class="nav-link " href="/doctor/patient-details">Patient Details <span
+                                class="sr-only">(current)</span></a>
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="left-side">
+                <div class="title-edit">
+                    <h3>Patient Information</h3>
+                </div>
+                <div class="form-container">
+                    <form id="patientForm" action="/doctor/add" method="POST"
+                        enctype="application/x-www-form-urlencoded">
+                        <div class="form-style">
+                            <input class="form-style-place" placeholder="Patient Name" type="text" name="name" required>
+                            <input class="form-style-place" placeholder="Mobile Number" type="number" name="number"
+                                required>
+                            <input class="form-style-place" placeholder="Email" type="email" name="email" required>
+                            <input type="hidden" name="canvasImage" id="canvasImage">
+                            <input class="enter" type="submit" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="right-side">
+                <div id="canvas-container">
+                    <div id="button-container">
+                        <button class="enter" id="clearCanvas">Clear</button>
+
+                        <input class="enter" type="color" id="penColor" value="#ffffff">
+
+                        <button class="enter2" id="eraserButton">Eraser</button>
+                    </div>
+                    <canvas id="canvas" width="800" height="600" style="background-color: black;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                const canvas = document.getElementById('canvas');
+                const context = canvas.getContext('2d');
+                let isDrawing = false;
+                let isErasing = false;
+                let penColor = '#ffffff';
+                let dataURL = canvas.toDataURL('image/jpeg', 0.8);
+                $('#canvasImage').val(dataURL);
+
+                $('#canvas').on('mousedown', function (e) {
+                    isDrawing = true;
+                    if (isErasing) {
+                        context.globalCompositeOperation = 'destination-out';
+                    } else {
+                        context.globalCompositeOperation = 'source-over';
+                        context.strokeStyle = penColor;
+                    }
+                    context.lineWidth = 2;
+                    context.lineCap = 'round';
+                    context.beginPath();
+                    context.moveTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+                });
+
+                $('#canvas').on('mousemove', function (e) {
+                    if (!isDrawing) return;
+                    context.lineTo(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top);
+                    context.stroke();
+                });
+
+                $('#canvas').on('mouseup', function () {
+                    isDrawing = false;
+                    context.closePath();
+                    dataURL = canvas.toDataURL('image/jpeg', 0.8);
+                    $('#canvasImage').val(dataURL);
+                });
+
+                $('#clearCanvas').on('click', function () {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                });
+
+                $('#eraserButton').on('click', function () {
+                    isErasing = !isErasing;
+                    if (isErasing) {
+                        $(this).text('Pen Mode').css('background-color', '#ffffff');
+                        context.lineWidth = 20;
+                    } else {
+                        $(this).text('Eraser').css('background-color', '#f5f5f5');
+                        context.lineWidth = 2;
+                    }
+                });
+
+                $('#penColor').on('input', function () {
+                    penColor = $(this).val();
+                });
+            });
+
+        </script>

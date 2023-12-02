@@ -1,0 +1,81 @@
+.footer-head{
+    padding: 1rem;
+    color: white;
+    background-color: #210d2d;
+    font-family: "monserat";
+}
+.footer-title{
+    padding: 12px; 
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.desc{
+  word-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 3px;
+}
+.footer-details{
+  padding-left: 10%;
+}
+
+.adress-inform{
+  padding: 0.5rem;
+}
+
+.list-style{
+   list-style-type: none;
+   padding-left: 0;
+}
+.list-style li{
+  font-size: 1rem;
+  padding: 1px;
+  font-family: "monserat";
+  
+}
+
+
+
+
+
+
+.my-button {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding for button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+  }
+  
+  /* Hover effect */
+  .my-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+
+  #sub-footer{
+    background-color: white;
+    height: fit-content;
+    padding: 1rem;
+  }
+
+  .footer-icon{
+     padding: 0 0.5rem;
+  }
+
+  .footer-icon a{
+    padding: 0 0.5rem;
+    text-decoration: none;
+    color: #210d2d;
+  }
+  .footer-icon a:hover{
+    padding: 0 0.5rem;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .footer-icon a i{
+    font-size: 1.2rem;
+    font-weight: 400;
+  }

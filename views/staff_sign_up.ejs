@@ -1,0 +1,165 @@
+<link rel="stylesheet" type="text/css" href="/css/staff_signup.css">
+<% if(locals.user){ %>
+    <div class="main-container">
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+
+                            <a class="nav-link " href=" /admin/add-inventory">Add Inventory <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link" href=" /admin/search">Search Inventory <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a class="nav-link" href=" /admin/selldata">Selling Details</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href=" /admin/staff-sign-up">Staff Details</button></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=" /admin/doctor-sign-up">Doctor Details</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <%}%>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+
+                        <div class="title-edit">
+                            <h1>Staff Sign-Up</h1>
+                        </div>
+                        <div class="form-container">
+                            <form action="/admin/staff/create" method="POST">
+                                <div class="form-style">
+                                    <input class="form-style-place" type="email" name="email" placeholder="Email"
+                                        required>
+                                    <input class="form-style-place" type="text" name="name" placeholder="Name" required>
+                                    <input class="form-style-place" type="password" name="password"
+                                        placeholder="Password" id="password" required>
+                                    <input class="form-style-place" type="password" name="confirm_password"
+                                        placeholder="Confirm Password" required>
+                                    <!-- <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()"> -->
+                                    <input class="enter" type="submit" value="Sign-Up">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <table border="1" style="text-align: center; ">
+                            <thead>
+                                <th>Sno.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Edit</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <% let i=1 %>
+                                    <% for(info of staff){%>
+                                        <tr>
+
+                                            <td>
+                                                <%= i++%>
+                                            </td>
+                                            <td>
+                                                <%= info.name %>
+                                            </td>
+                                            <td>
+                                                <%= info.email%>
+                                            </td>
+                                            <td>
+                                                <div class="modal fade" id="myModal<%=i%>" role="dialog">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                                <div class="title-edit">
+                                                                    <h1>Update Profile</h1>
+                                                                </div>
+                                                                <div class="form-container">
+                                                                    <form action="/admin/staff/update-profile"
+                                                                        method="POST">
+                                                                        <hr>
+                                                                        <p class="modal-title">Email: <%= info.email%>
+                                                                        </p>
+                                                                        <p class="modal-title">Name: <%= info.name%>
+                                                                        </p>
+                                                                        <hr>
+                                                                        <div class="form-style">
+                                                                            <input class="form-style-place"
+                                                                                type="hidden" name="id"
+                                                                                value="<%= info.id%>">
+                                                                            <input class="form-style-place" type="email"
+                                                                                name="email" placeholder="Email">
+                                                                            <input class="form-style-place" type="name"
+                                                                                name="name" placeholder="Name" required>
+                                                                            <input class="enter" type="submit"
+                                                                                value="Update">
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img src="/images/edit.png" data-toggle="modal"
+                                                    data-target="#myModal<%=i%>" class="img-clickable">
+                                            </td>
+                                            <td><a href="/admin/staff-destroy/<%= info.id %>"><img
+                                                        src="/images/delete.png"></a></td>
+                                        </tr>
+                                        <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        <% function checkExpiration(expDate) {
+            var currentDate = new Date();
+            var expirationDate = new Date(expDate);
+            var timeDifference = expirationDate - currentDate;
+            var daysUntilExpiration = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            if (daysUntilExpiration < 0) {
+                return " background-color: red;";
+            } else if (daysUntilExpiration <= 30) {
+                return "background-color: orange;";
+            } else { return ""; }
+        } %>
+
+            $(document).ready(function () {
+                $('#dropdownToggle').click(function () {
+                    $('.dropdown-menu').toggle(); // Toggle the display of the dropdown menu
+                });
+            });
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            var showPasswordCheckbox = document.getElementById("showPassword");
+
+            // Check if the checkbox is checked
+            if (showPasswordCheckbox.checked) {
+                // If checked, change the password field type to "text"
+                passwordField.type = "text";
+            } else {
+                // If not checked, change it back to "password"
+                passwordField.type = "password";
+            }
+        }
+    </script>
